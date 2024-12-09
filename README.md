@@ -1,3 +1,8 @@
+
+Forked from: https://github.com/FreeOpcUa/opcua-client-gui
+Modified such that the graph update rate can be set <= 1 Sec for better live visualizations.
+
+
 Simple OPC-UA GUI client.
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/FreeOpcUa/opcua-client-gui/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/FreeOpcUa/opcua-client-gui/?branch=master)

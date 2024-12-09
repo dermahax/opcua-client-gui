@@ -67,7 +67,7 @@ class GraphUI(object):
         self.N = self.window.ui.spinBoxNumberOfPoints.value()
         self.ts = np.arange(self.N)
         # define the poll intervall
-        self.intervall = self.window.ui.spinBoxIntervall.value() * 1000
+        self.intervall = self.window.ui.spinBoxIntervall.value() 
 
         # overwrite current channel buffers with zeros of current length and add to curves again
         for i, channel in enumerate(self._channels):

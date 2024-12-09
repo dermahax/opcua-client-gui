@@ -142,7 +142,7 @@ class UaClient(object):
 
     def subscribe_datachange(self, node, handler):
         if not self._datachange_sub:
-            self._datachange_sub = self.client.create_subscription(500, handler)
+            self._datachange_sub = self.client.create_subscription(1000, handler)
         handle = self._datachange_sub.subscribe_data_change(node)
         self._subs_dc[node.nodeid] = handle
         return handle
@@ -153,7 +153,7 @@ class UaClient(object):
     def subscribe_events(self, node, handler):
         if not self._event_sub:
             print("subscirbing with handler: ", handler, dir(handler))
-            self._event_sub = self.client.create_subscription(500, handler)
+            self._event_sub = self.client.create_subscription(1000, handler)
         handle = self._event_sub.subscribe_events(node)
         self._subs_ev[node.nodeid] = handle
         return handle

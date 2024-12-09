@@ -347,7 +347,7 @@ class Ui_MainWindow(object):
         self.evDockWidget.setWindowTitle(_translate("MainWindow", "&Events"))
         self.graphDockWidget.setWindowTitle(_translate("MainWindow", "&Graph"))
         self.labelNumberOfPoints.setText(_translate("MainWindow", "Number of Points"))
-        self.labelIntervall.setText(_translate("MainWindow", "Intervall [s]"))
+        self.labelIntervall.setText(_translate("MainWindow", "Intervall [ms]"))
         self.buttonApply.setText(_translate("MainWindow", "Apply"))
         self.actionConnect.setText(_translate("MainWindow", "&Connect"))
         self.actionDisconnect.setText(_translate("MainWindow", "&Disconnect"))

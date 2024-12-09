@@ -1,5 +1,6 @@
 
 Forked from: https://github.com/FreeOpcUa/opcua-client-gui
+
 Modified such that the graph update rate can be set <= 1 Sec for better live visualizations.
 
 

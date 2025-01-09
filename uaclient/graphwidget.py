@@ -155,21 +155,11 @@ class GraphArraysUI(GraphUI):
         self.window.ui.graphLayout.removeWidget(self.pw)
         self.window.ui.graphArraysLayout.addWidget(self.pw)
 
-        # 2) Disconnect the single-value actions
-        try:
-            self.window.ui.actionAddToGraph.triggered.disconnect()
-        except TypeError:
-            pass
-        try:
-            self.window.ui.actionRemoveFromGraph.triggered.disconnect()
-        except TypeError:
-            pass
-
-        # 3) Connect our new array actions
+        # 2) Connect our new array actions
         self.window.ui.actionAddToGraphArrays.triggered.connect(self._add_node_to_channel)
         self.window.ui.actionRemoveFromGraphArrays.triggered.connect(self._remove_node_from_channel)
 
-        # 4) Add them to the treeView context menu
+        # 3) Add them to the treeView context menu
         self.window.ui.treeView.addAction(self.window.ui.actionAddToGraphArrays)
         self.window.ui.treeView.addAction(self.window.ui.actionRemoveFromGraphArrays)
 

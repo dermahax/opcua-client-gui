@@ -17,28 +17,6 @@ It has also a contextual menu with a few usefull function like putting the mode 
 
 ![Screenshot](/screenshot.png?raw=true "Screenshot")
 
-What works:
-* connecting and disconnecting
-* browsing with icons per node types
-* showing attributes and references
-* subscribing to variable
-* available on pip: sudo pip install opcua-client
-* remember connections and show connection history
-* subscribing to events
-* write variable node values
-* gui for certificates
-* gui for encryption 
-* call methods
-* plot method values
-* remember last browsed path and restore state
-
-TODO (listed after priority):
-
-* detect lost connection and automatically reconnect 
-* gui for loging with certificate or user/password (can currently be done by writting them in uri)
-* Maybe read history
-* Something else?
-
 # How to Install  
 
 *Note: PyQT 5 is required.*

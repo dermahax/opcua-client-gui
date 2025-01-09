@@ -20,6 +20,7 @@ from uaclient.mainwindow_ui import Ui_MainWindow
 from uaclient.connection_dialog import ConnectionDialog
 from uaclient.application_certificate_dialog import ApplicationCertificateDialog
 from uaclient.graphwidget import GraphUI
+from uaclient.graphwidget_arrays import GraphArraysUI
 
 from uawidgets import resources  # must be here for ressources even if not used
 from uawidgets.attrs_widget import AttrsWidget
@@ -28,6 +29,8 @@ from uawidgets.refs_widget import RefsWidget
 from uawidgets.utils import trycatchslot
 from uawidgets.logger import QtHandler
 from uawidgets.call_method_dialog import CallMethodDialog
+
+
 
 
 logger = logging.getLogger(__name__)
@@ -259,6 +262,7 @@ class Window(QMainWindow):
         self.datachange_ui = DataChangeUI(self, self.uaclient)
         self.event_ui = EventUI(self, self.uaclient)
         self.graph_ui = GraphUI(self, self.uaclient)
+        self.graphArraysUI = GraphArraysUI(self, self.uaclient)
 
         self.ui.addrComboBox.currentTextChanged.connect(self._uri_changed)
         self._uri_changed(self.ui.addrComboBox.currentText())  # force update for current value at startup

@@ -19,8 +19,7 @@ from uaclient.uaclient import UaClient
 from uaclient.mainwindow_ui import Ui_MainWindow
 from uaclient.connection_dialog import ConnectionDialog
 from uaclient.application_certificate_dialog import ApplicationCertificateDialog
-from uaclient.graphwidget import GraphUI
-from uaclient.graphwidget_arrays import GraphArraysUI
+from uaclient.graphwidget import GraphUI, GraphArraysUI
 
 from uawidgets import resources  # must be here for ressources even if not used
 from uawidgets.attrs_widget import AttrsWidget
@@ -71,6 +70,7 @@ class EventUI(object):
         self.window.addAction(self.window.ui.actionSubscribeEvent)
         self.window.addAction(self.window.ui.actionUnsubscribeEvents)
         self.window.addAction(self.window.ui.actionAddToGraph)
+        self.window.addAction(self.window.ui.actionAddToGraphArrays)
         self._handler.event_fired.connect(self._update_event_model, type=Qt.QueuedConnection)
 
         # accept drops

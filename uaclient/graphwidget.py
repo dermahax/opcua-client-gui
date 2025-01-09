@@ -133,3 +133,109 @@ class GraphUI(object):
 
     def show_error(self, *args):
         self.window.show_error(*args)
+
+
+
+# New: GraphArraysUI for handling array data
+class GraphArraysUI(GraphUI):
+    """
+    Inherits from GraphUI but overrides:
+      - __init__ to place the PlotWidget in graphArraysLayout
+      - connections to actionAddToGraphArrays / actionRemoveFromGraphArrays
+      - _add_node_to_channel to accept array data
+      - pushtoGraph to update array data properly
+    """
+
+    def __init__(self, window, uaclient):
+        # Call parent constructor
+        super().__init__(window, uaclient)
+
+        # 1) Remove the PlotWidget from the old layout (graphLayout)
+        #    and re-add it to the array graph layout
+        self.window.ui.graphLayout.removeWidget(self.pw)
+        self.window.ui.graphArraysLayout.addWidget(self.pw)
+
+        # 2) Disconnect the single-value actions
+        try:
+            self.window.ui.actionAddToGraph.triggered.disconnect()
+        except TypeError:
+            pass
+        try:
+            self.window.ui.actionRemoveFromGraph.triggered.disconnect()
+        except TypeError:
+            pass
+
+        # 3) Connect our new array actions
+        self.window.ui.actionAddToGraphArrays.triggered.connect(self._add_node_to_channel)
+        self.window.ui.actionRemoveFromGraphArrays.triggered.connect(self._remove_node_from_channel)
+
+        # 4) Add them to the treeView context menu
+        self.window.ui.treeView.addAction(self.window.ui.actionAddToGraphArrays)
+        self.window.ui.treeView.addAction(self.window.ui.actionRemoveFromGraphArrays)
+
+        # You may want a different default timer interval for arrays,
+        # or keep parent’s restartTimer behavior. Example:
+        self.restartTimer()
+
+    @trycatchslot
+    def _add_node_to_channel(self, node=None):
+        """
+        Overrides the parent's method to accept array data.
+        We'll store the full array in _channels[i] and just plot it directly
+        (not ring-buffer style, unless you want to store multiple 'frames').
+        """
+        if not isinstance(node, SyncNode):
+            node = self.window.get_current_node()
+            if node is None:
+                return
+
+        # If node is already in the list, do nothing
+        if node in self._node_list:
+            logger.info("Node already added to arrays graph.")
+            return
+
+        try:
+            value = node.get_value()
+            # Check if it's an array
+            if isinstance(value, (list, tuple)) or (use_graph and isinstance(value, np.ndarray)):
+                self._node_list.append(node)
+                displayName = node.read_display_name().Text
+                colorIndex = len(self._node_list) % len(self.colorCycle)
+                pen = pg.mkPen(color=self.colorCycle[colorIndex], width=3, style=Qt.SolidLine)
+                new_curve = self.pw.plot(name=displayName, pen=pen)
+                self._curves.append(new_curve)
+
+                # Store the array data in _channels (for consistency)
+                # This could be a list or np.array; here we store the last known array
+                arr_data = np.array(value) if isinstance(value, list) else value
+                self._channels.append(arr_data)
+
+                # Plot immediately
+                x_vals = np.arange(len(arr_data))
+                new_curve.setData(x_vals, arr_data)
+
+                logger.info("Array variable %s added to arrays graph", displayName)
+            else:
+                logger.info("Node value is not an array—cannot add to arrays graph.")
+        except Exception as ex:
+            logger.error("Error reading node value: %s", ex)
+
+    def pushtoGraph(self):
+        """
+        Instead of ring-buffering, re-read each array node's value
+        and plot the full array each time.
+        """
+        for i, node in enumerate(self._node_list):
+            try:
+                value = node.get_value()
+                if isinstance(value, (list, tuple)) or (use_graph and isinstance(value, np.ndarray)):
+                    arr_data = np.array(value) if isinstance(value, list) else value
+                    self._channels[i] = arr_data
+
+                    x_vals = np.arange(len(arr_data))
+                    self._curves[i].setData(x_vals, arr_data)
+                else:
+                    # If it's no longer an array, skip or log
+                    logger.debug("Node %s no longer returning array data", node)
+            except Exception as ex:
+                logger.error("Error updating array graph for node %s: %s", node, ex)

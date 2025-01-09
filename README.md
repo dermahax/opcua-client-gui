@@ -1,7 +1,8 @@
 
 Forked from: https://github.com/FreeOpcUa/opcua-client-gui
 
-Modified such that the graph update rate can be set <= 1 Sec for better live visualizations.
+* Modified such that the graph update rate can be set <= 1 Sec for better live visualizations.
+* Added a graphArrays widget, that visualizes array nodes.
 
 
 Simple OPC-UA GUI client.
@@ -42,24 +43,13 @@ TODO (listed after priority):
 
 *Note: PyQT 5 is required.*
 
-### Linux:
-
-1. Make sure python and python-pip is installed  
-2. `pip3 install opcua-client`  
-4. Run with: `opcua-client`  
   
 ### Windows:  
 
-1. Install winpython https://winpython.github.io/ , install the version including pyqt5!
-3. Use pip to install opcua-client: `pip install opcua-client`  
-4. Run via the script pip created: `YOUR_INSTALL_PATH\Python\Python35\Scripts\opcua-client.exe`  
+1. Clone the project
+2. Create a virtual environment
+3. Move to the project directory in your console/terminal
+4. run *pip install .*
 
-To update to the latest release run: `pip install opcua-client --upgrade`
 
-### MacOS
-
-1. Make sure python, python-pip and homebrew is installed
-2. `brew install pyqt@5`
-3. `pip3 install opcua-client pyqtgraph cryptography numpy`
-4. Run with `opcua-client`
 

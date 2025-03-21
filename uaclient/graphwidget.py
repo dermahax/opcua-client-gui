@@ -31,7 +31,7 @@ class GraphUI(object):
     colorCycle = ['#4e9a06ff', '#ce5c00ff', '#3465a4ff', '#75507bff', '#cc0000ff', '#edd400ff']
     acceptedDatatypes = ['Decimal128', 'Double', 'Float', 'Integer', 'UInteger']
 
-    def __init__(self, window, uaclient):
+    def __init__(self, window, uaclient, connect_actions=True):
         self.window = window
         self.uaclient = uaclient
 
@@ -47,12 +47,13 @@ class GraphUI(object):
         self.legend = self.pw.addLegend()
         self.window.ui.graphLayout.addWidget(self.pw)
 
-        self.window.ui.actionAddToGraph.triggered.connect(self._add_node_to_channel)
-        self.window.ui.actionRemoveFromGraph.triggered.connect(self._remove_node_from_channel)
+        if connect_actions:
+            self.window.ui.actionAddToGraph.triggered.connect(self._add_node_to_channel)
+            self.window.ui.actionRemoveFromGraph.triggered.connect(self._remove_node_from_channel)
 
-        # populate contextual menu
-        self.window.ui.treeView.addAction(self.window.ui.actionAddToGraph)
-        self.window.ui.treeView.addAction(self.window.ui.actionRemoveFromGraph)
+            # populate contextual menu
+            self.window.ui.treeView.addAction(self.window.ui.actionAddToGraph)
+            self.window.ui.treeView.addAction(self.window.ui.actionRemoveFromGraph)
 
         # connect Apply button
         self.window.ui.buttonApply.clicked.connect(self.restartTimer)
@@ -148,7 +149,7 @@ class GraphArraysUI(GraphUI):
 
     def __init__(self, window, uaclient):
         # Call parent constructor
-        super().__init__(window, uaclient)
+        super().__init__(window, uaclient, connect_actions=False)
 
         # 1) Remove the PlotWidget from the old layout (graphLayout)
         #    and re-add it to the array graph layout
